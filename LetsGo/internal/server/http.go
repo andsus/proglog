@@ -4,15 +4,14 @@ package server
 import (
 	"encoding/json"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 func NewHTTPServer(addr string) *http.Server {
 	httpsrv := newHTTPServer()
-	r := mux.NewRouter()
-	r.HandleFunc("/", httpsrv.handleProduce).Methods("POST")
-	r.HandleFunc("/", httpsrv.handleConsume).Methods("GET")
+	// r := mux.NewRouter()
+	r := http.NewServeMux()
+	r.HandleFunc("POST /", httpsrv.handleProduce)
+	r.HandleFunc("GET /", httpsrv.handleConsume)
 	return &http.Server{
 		Addr:    addr,
 		Handler: r,
